@@ -4,9 +4,9 @@ import json
 app = Flask(__name__)
 
 VERSIONS = {
-  "ExpressCommand": "20250404",
-  "test": "114514",
-  "StoreOffline": "20250404"
+    "ExpressCommand": "20250404",
+    "test": "114514",
+    "StoreOffline": "20250404"
 }
 
 @app.route('/get_version', methods=['GET'])
@@ -15,12 +15,9 @@ def get_version():
     if not app_name:
         return jsonify({"error": "Missing 'name' parameter"}), 400
     
-    versions = json.dumps(VERSIONS)
-    
-    if app_name in versions:
+    if app_name in VERSIONS:  # 直接使用原始的 VERSIONS 字典
         return jsonify({
-            "app": app_name,
-            "version": versions[app_name]
+            "version": VERSIONS[app_name]  # 直接从字典中获取值
         })
     else:
         return jsonify({"error": f"App '{app_name}' not found"}), 404
