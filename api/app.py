@@ -1,16 +1,13 @@
 from flask import Flask, jsonify, request
 import json
-import os
 
 app = Flask(__name__)
 
-def load_versions():
-    # 获取当前文件的绝对路径
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    json_path = os.path.join(current_dir, '../../my_app_version.json')
-    
-    with open(json_path, 'r') as f:
-        return json.load(f)
+VERSIONS = {
+  "ExpressCommand": "20250404",
+  "test": "114514",
+  "StoreOffline": "20250404"
+}
 
 @app.route('/get_version', methods=['GET'])
 def get_version():
@@ -18,7 +15,7 @@ def get_version():
     if not app_name:
         return jsonify({"error": "Missing 'name' parameter"}), 400
     
-    versions = load_versions()
+    versions = json.dumps(VERSIONS)
     
     if app_name in versions:
         return jsonify({
