@@ -15,8 +15,8 @@ def get_version():
     if not app_name:
         return jsonify({"error": "Missing 'name' parameter"}), 400
     
-    if app_name in VERSIONS:  # 直接使用原始的 VERSIONS 字典
-        return jsonify(VERSIONS[app_name])  # 直接从字典中获取值
+    if app_name in VERSIONS:
+        return jsonify(VERSIONS[app_name], ensure_ascii=False)
     else:
         return jsonify({"error": f"App '{app_name}' not found"}), 404
 
