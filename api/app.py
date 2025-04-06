@@ -10,10 +10,12 @@ VERSIONS = {
 }
 
 @app.route('/get_version', methods=['GET'])
-def get_version():
-    app_name = request.args.get('name')
+@app.route('/<app_name>', methods=['GET'])
+def get_version(app_name=None):
     if not app_name:
-        return jsonify({"error": "Missing 'name' parameter"}), 400
+        app_name = request.args.get('name')
+    if not app_name:
+        return jsonify({"error": "我思故我思。"}), 400
     
     if app_name in VERSIONS:
         return jsonify(VERSIONS[app_name], ensure_ascii=False)
