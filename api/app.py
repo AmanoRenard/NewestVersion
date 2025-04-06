@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
+import json
 
 app = Flask(__name__)
 
@@ -18,12 +19,15 @@ def get_version(app_name=None):
         app_name = request.args.get('name')
         
     if not app_name:
-        return jsonify({"error": "Missing 'name' parameter"}), 400
+        return Response(json.dumps({"error": "我思故我思。"}, ensure_ascii=False),
+                        content_type="application/json; charset=utf-8"), 400
     
     if app_name in VERSIONS:
-        return jsonify(VERSIONS[app_name])  # 返回指定应用的版本信息
+        return Response(json.dumps(VERSIONS[app_name], ensure_ascii=False),
+                        content_type="application/json; charset=utf-8")
     else:
-        return jsonify({"error": f"App '{app_name}' not found"}), 404
+        return Response(json.dumps({"error": f"App '{app_name}' not found"}, ensure_ascii=False),
+                        content_type="application/json; charset=utf-8"), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
